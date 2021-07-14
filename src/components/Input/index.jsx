@@ -18,7 +18,7 @@ const Input = ({ type, placeholder, label, id, name, required, value }) => {
             name={name}
             value={inputValue}
             onInput={handleInput}
-            required={required ? required : false}
+            required={required}
         />
     </div>
 }

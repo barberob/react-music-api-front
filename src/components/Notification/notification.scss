@@ -1,0 +1,27 @@
+.Notification {
+    display: flex;
+    justify-content: center;
+    color: white;
+    padding: 1rem 0.5rem;
+    position: fixed;
+    min-width: 5rem;
+    top: 2rem;
+    border-radius: 0.35rem;
+    z-index: 10;
+    transition: 0.5s ease-in-out;
+    opacity: 0;
+    top: 0;
+    transform: translateY(-100%);
+
+    &.success {
+        background: #28a745;
+    }
+    &.error {
+        background: #dc3545;
+    }
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(50%);
+    }
+}

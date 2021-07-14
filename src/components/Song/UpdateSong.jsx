@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
 import './UpdateSong.scss'
 
 import getInputValue from '../../helpers/getInputValue'
 
 import useClickOutside from '../../hooks/useClickOutside'
+
+import notificationContext from '../../contexts/notification/notificationContext'
 
 import Input from '../Input'
 import CloseButton from '../CloseButton'
@@ -13,12 +15,13 @@ const UpdateSong = ({ title, artist, album, released_at, _id, handleUpdateSong }
 
     const [isUpdatingSong, setIsUpdatingSong] = useState(false)
 
+    const { state, dispatch } = useContext(notificationContext)
+
     const formRef = useClickOutside(() => {
         setIsUpdatingSong(false)
     })
 
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
         const values = {
             _id,
@@ -30,13 +33,20 @@ const UpdateSong = ({ title, artist, album, released_at, _id, handleUpdateSong }
 
         console.log(values);
 
-        for (const value in values) {
-            if (value === '') return
-            //TODO handle error
-        }
+        // for (const value in values) {
+        //     if (value === '') return
+        //     //TODO handle error
+        // }
 
-        handleUpdateSong(values)
+        const isUpdated = await handleUpdateSong(values)
+        console.log('isUpdated', isUpdated);
         setIsUpdatingSong(false)
+        if (isUpdated) {
+            dispatch({ type: 'set_all', error: false, message: 'Musique modifiée', display: true })
+        } else {
+            dispatch({ type: 'set_all', error: true, message: 'Erreur lors de la modification', display: true })
+        }
+        console.log(state)
     }
 
 
