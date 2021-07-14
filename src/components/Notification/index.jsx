@@ -20,7 +20,7 @@ const Notification = () => {
     }, [shouldDisplay])
 
     return <>
-        <div className={`Notification ${error ? 'error' : 'success'} ${shouldDisplay ? 'visible' : 'hidden'}`}>
+        <div className={`Notification ${error ? 'error' : 'success'} ${shouldDisplay && 'visible'}`}>
             <p>{message}</p>
         </div>
     </>

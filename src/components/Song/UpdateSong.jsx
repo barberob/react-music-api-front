@@ -15,7 +15,7 @@ const UpdateSong = ({ title, artist, album, released_at, _id, handleUpdateSong }
 
     const [isUpdatingSong, setIsUpdatingSong] = useState(false)
 
-    const { state, dispatch } = useContext(notificationContext)
+    const { dispatch } = useContext(notificationContext)
 
     const formRef = useClickOutside(() => {
         setIsUpdatingSong(false)
@@ -31,22 +31,19 @@ const UpdateSong = ({ title, artist, album, released_at, _id, handleUpdateSong }
             released_at: getInputValue(event, 'released_at'),
         }
 
-        console.log(values);
 
-        // for (const value in values) {
-        //     if (value === '') return
-        //     //TODO handle error
-        // }
+        for (const value in values) {
+            if (value === '') return
+            dispatch({ type: 'set_all', error: true, message: 'Tous les champs son requis', display: true })
+        }
 
         const isUpdated = await handleUpdateSong(values)
-        console.log('isUpdated', isUpdated);
-        setIsUpdatingSong(false)
         if (isUpdated) {
             dispatch({ type: 'set_all', error: false, message: 'Musique modifiée', display: true })
+            setIsUpdatingSong(false)
         } else {
             dispatch({ type: 'set_all', error: true, message: 'Erreur lors de la modification', display: true })
         }
-        console.log(state)
     }
 
 

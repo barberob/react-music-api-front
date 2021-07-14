@@ -4,8 +4,6 @@ import { SERVER_URL } from '../../config'
 
 import './songs.scss'
 
-import getInputValue from '../../helpers/getInputValue'
-
 import notificationContext from '../../contexts/notification/notificationContext'
 import notificationReducer from '../../contexts/notification/notificationReducer'
 
@@ -24,8 +22,8 @@ const Songs = () => {
 
     const fetchData = async () => {
         try {
-            const data = await fetch(`${SERVER_URL}/songs`)
-            const songsData = await data.json()
+            const response = await fetch(`${SERVER_URL}/songs`)
+            const songsData = await response.json()
             setSongs(songsData)
         } catch (err) {
             setErrorRetrievingSongs(true)
@@ -35,28 +33,19 @@ const Songs = () => {
 
     const handleDeleteSong = async (_id) => {
         try {
-            await fetch(`${SERVER_URL}/songs/delete/${_id}`)
+            const response = await fetch(`${SERVER_URL}/songs/delete/${_id}`)
+            const { error } = await response.json()
+            const newSongs = songs.filter(song => song._id !== _id)
+            setSongs(newSongs)
+            return !error
         } catch (err) {
-            //TODO display error
-            return
+
+            return false
         }
-        const newSongs = songs.filter(song => song._id !== _id)
-        setSongs(newSongs)
     }
 
-    // TODO move values test in other handler
-    const handleAddSong = async event => {
+    const handleAddSong = async values => {
         try {
-            const values = {
-                title: getInputValue(event, 'title'),
-                artist: getInputValue(event, 'artist'),
-                album: getInputValue(event, 'album'),
-                released_at: getInputValue(event, 'released_at'),
-            }
-            for (const value in values) {
-                if (value === '') return
-            }
-
             const response = await fetch(`${SERVER_URL}/songs/add`, {
                 method: 'POST',
                 body: JSON.stringify(values),
@@ -65,11 +54,11 @@ const Songs = () => {
                 }
             })
             const data = await response.json()
-            if (data.error) return
+            if (data.error) return false
             setSongs([...songs, data.song])
-
+            return true
         } catch (err) {
-            //TODO display error
+            return false
         }
     }
 
@@ -85,20 +74,17 @@ const Songs = () => {
             })
             const data = await response.json()
 
-            console.log('result => ', !data.error)
             if (!data.error) {
                 const newSongs = songs.map(song => {
                     if (song._id !== values._id) return song
                     else return values
                 })
-                console.log(newSongs);
                 setSongs(newSongs)
                 return true
             } else {
                 return false
             }
         } catch (err) {
-            //TODO handle error
             return false
         }
     }
