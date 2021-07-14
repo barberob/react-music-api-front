@@ -1,0 +1,14 @@
+.Song-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid grey;
+    border-radius: 1em;
+    padding: 1rem 0.5rem;
+    flex-wrap: wrap;
+    margin: 1rem;
+    & > *:not(:first-child) {
+        margin-top: 2rem;
+    }
+}
