@@ -18,8 +18,8 @@ const DeleteSong = ({ _id, handleDeleteSong }) => {
             dispatch({ type: 'set_all', error: false, message: 'Musique supprimée', display: true })
         } else {
             dispatch({ type: 'set_all', error: true, message: 'Erreur lors de la suppression', display: true })
+            setIsLoading(false)
         }
-        setIsLoading(false)
     }
 
     return <button onClick={handleClick}>{isLoading ? 'Suppression...' : 'Supprimer'}</button>

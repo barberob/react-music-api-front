@@ -19,12 +19,7 @@ const Songs = () => {
     const [errorRetrievingSongs, setErrorRetrievingSongs] = useState(false)
 
     useEffect(() => {
-        let mounted = true
-        if (mounted) {
-            fetchData()
-        }
-
-        return () => mounted = false
+        fetchData()
     }, [])
 
     const fetchData = async () => {
