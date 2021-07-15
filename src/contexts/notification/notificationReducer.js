@@ -6,7 +6,7 @@ const tasksReducer = (state, action) => {
 
         case 'set_all': {
             return {
-                shouldDisplay: action.display,
+                shouldDisplay: true,
                 error: action.error,
                 message: action.message
             }

@@ -15,9 +15,9 @@ const DeleteSong = ({ _id, handleDeleteSong }) => {
         const isDeleted = await handleDeleteSong(_id)
 
         if (isDeleted) {
-            dispatch({ type: 'set_all', error: false, message: 'Musique supprimée', display: true })
+            dispatch({ type: 'set_all', error: false, message: 'Musique supprimée' })
         } else {
-            dispatch({ type: 'set_all', error: true, message: 'Erreur lors de la suppression', display: true })
+            dispatch({ type: 'set_all', error: true, message: 'Erreur lors de la suppression' })
             setIsLoading(false)
         }
     }

@@ -29,17 +29,17 @@ const AddSong = ({ handleAddSong }) => {
         }
         for (const value in values) {
             if (value === '') {
-                dispatch({ type: 'set_all', error: true, message: 'Tous les champs sont requis', display: true })
+                dispatch({ type: 'set_all', error: true, message: 'Tous les champs sont requis' })
                 return
             }
         }
         const addSongStatus = await handleAddSong(values)
         if (addSongStatus.exists) {
-            dispatch({ type: 'set_all', error: true, message: 'Cette musique à déjà été ajoutée', display: true })
+            dispatch({ type: 'set_all', error: true, message: 'Cette musique à déjà été ajoutée' })
         } else if (addSongStatus.error) {
-            dispatch({ type: 'set_all', error: true, message: 'Erreur lors de l\'ajout', display: true })
+            dispatch({ type: 'set_all', error: true, message: 'Erreur lors de l\'ajout' })
         } else {
-            dispatch({ type: 'set_all', error: false, message: 'Musique ajoutée', display: true })
+            dispatch({ type: 'set_all', error: false, message: 'Musique ajoutée' })
         }
         setIsAddingSong(false)
     }

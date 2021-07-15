@@ -34,16 +34,16 @@ const UpdateSong = ({ title, artist, album, released_at, _id, handleUpdateSong }
 
         for (const value in values) {
             if (value === '') return
-            dispatch({ type: 'set_all', error: true, message: 'Tous les champs sont requis', display: true })
+            dispatch({ type: 'set_all', error: true, message: 'Tous les champs sont requis' })
         }
 
         const updateStatus = await handleUpdateSong(values)
         if (updateStatus.exists) {
-            dispatch({ type: 'set_all', error: true, message: 'Une autre musique est similaire', display: true })
+            dispatch({ type: 'set_all', error: true, message: 'Une autre musique est similaire' })
         } else if (updateStatus.error) {
-            dispatch({ type: 'set_all', error: true, message: 'Erreur lors de la modification', display: true })
+            dispatch({ type: 'set_all', error: true, message: 'Erreur lors de la modification' })
         } else {
-            dispatch({ type: 'set_all', error: false, message: 'Musique modifiée', display: true })
+            dispatch({ type: 'set_all', error: false, message: 'Musique modifiée' })
             setIsUpdatingSong(false)
         }
     }
