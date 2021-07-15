@@ -127,8 +127,8 @@ const Songs = () => {
 
     return <>
         <notificationContext.Provider value={{ state, dispatch }}>
-            <Notification></Notification>
-            <SearchBar handleSearch={handleSearch}></SearchBar>
+            <Notification />
+            <SearchBar handleSearch={handleSearch} />
             <AddSong handleAddSong={handleAddSong} />
 
             {!errorRetrievingSongs ? <ul className="Songs-list">
