@@ -33,8 +33,10 @@ const UpdateSong = ({ title, artist, album, released_at, _id, handleUpdateSong }
 
 
         for (const value in values) {
-            if (value === '') return
-            dispatch({ type: 'set_all', error: true, message: 'Tous les champs sont requis' })
+            if (values[value] === '') {
+                dispatch({ type: 'set_all', error: true, message: 'Tous les champs sont requis' })
+                return
+            }
         }
 
         const updateStatus = await handleUpdateSong(values)
