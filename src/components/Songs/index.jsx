@@ -11,9 +11,11 @@ import notificationReducer from '../../contexts/notification/notificationReducer
 import Song from '../Song'
 import AddSong from '../AddSong'
 import Notification from '../Notification'
+import SearchBar from '../SearchBar'
 
 const Songs = () => {
     const [songs, setSongs] = useState([])
+    const [displayedSongs, setDisplayedSongs] = useState([])
     const [errorRetrievingSongs, setErrorRetrievingSongs] = useState(false)
 
     useEffect(() => {
@@ -25,6 +27,7 @@ const Songs = () => {
             const response = await fetch(`${SERVER_URL}/songs`)
             const songsData = await response.json()
             setSongs(songsData)
+            setDisplayedSongs(songsData)
         } catch (err) {
             setErrorRetrievingSongs(true)
         }
@@ -37,6 +40,7 @@ const Songs = () => {
             const { error } = await response.json()
             const newSongs = songs.filter(song => song._id !== _id)
             setSongs(newSongs)
+            setDisplayedSongs(newSongs)
             return !error
         } catch (err) {
 
@@ -55,7 +59,9 @@ const Songs = () => {
             })
             const data = await response.json()
             if (data.error) return false
-            setSongs([...songs, data.song])
+            const newSongs = [...songs, data.song]
+            setSongs(newSongs)
+            setDisplayedSongs(newSongs)
             return true
         } catch (err) {
             return false
@@ -80,9 +86,29 @@ const Songs = () => {
                     else return values
                 })
                 setSongs(newSongs)
+                setDisplayedSongs(newSongs)
                 return true
             } else {
                 return false
+            }
+        } catch (err) {
+            return false
+        }
+    }
+
+
+    // ici on pourrait trier les musiques directement sans faire de requetes
+    // mais si on ajoute un système de pagination, cela ne marcherait plus
+    const handleSearch = async (value) => {
+        try {
+            if (value === '') {
+                setDisplayedSongs(songs)
+                return
+            }
+            const response = await fetch(`${SERVER_URL}/songs/search/${value}`)
+            const data = await response.json()
+            if (!data.error) {
+                setDisplayedSongs(data)
             }
         } catch (err) {
             return false
@@ -100,16 +126,18 @@ const Songs = () => {
     return <>
         <notificationContext.Provider value={{ state, dispatch }}>
             <Notification></Notification>
+            <SearchBar handleSearch={handleSearch}></SearchBar>
             <AddSong handleAddSong={handleAddSong} />
+
             {!errorRetrievingSongs ? <ul className="Songs-list">
-                {songs.length ? songs.map((song) => {
+                {displayedSongs.length ? displayedSongs.map((song) => {
 
                     return <Song key={song._id} {...song}
                         handleDeleteSong={handleDeleteSong}
-                        handleUpdateSong={handleUpdateSong}>
-                    </Song>
+                        handleUpdateSong={handleUpdateSong}
+                    />
                 }) :
-                    <h2>Aucune musique n'a encore été ajoutée</h2>
+                    <h2>Aucune musique trouvée</h2>
                 }
             </ul> :
                 <p>Erreur de récupération des musiques</p>
