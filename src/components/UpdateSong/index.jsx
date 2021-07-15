@@ -8,8 +8,8 @@ import useClickOutside from '../../hooks/useClickOutside'
 
 import notificationContext from '../../contexts/notification/notificationContext'
 
-import Input from '../Input'
 import CloseButton from '../CloseButton'
+import SongFormFields from '../SongFormFields'
 
 const UpdateSong = ({ title, artist, album, released_at, _id, handleUpdateSong }) => {
 
@@ -46,53 +46,16 @@ const UpdateSong = ({ title, artist, album, released_at, _id, handleUpdateSong }
         }
     }
 
-
-
     const handleClick = () => {
         setIsUpdatingSong(!isUpdatingSong)
     }
 
-    // formats 'released_at' to date input value
-    const formatDate = (date) => {
-        return (new Date(date)).toLocaleDateString().split('/').reverse().join('-')
-    }
 
     return <div>
         <button onClick={handleClick}>Modifier</button>
         {isUpdatingSong && <form className="UpdateSongForm" onSubmit={handleSubmit} ref={formRef}>
             <CloseButton handleClick={handleClick}></CloseButton>
-
-            <Input type="text"
-                label="Titre"
-                placeholder="Rapper's Delight"
-                id="title"
-                name="title"
-                value={title}
-                required={true}
-            />
-            <Input type="text"
-                label="Artiste"
-                placeholder="The Sugarhill Gang"
-                id="artist"
-                name="artist"
-                value={artist}
-                required={true}
-            />
-            <Input type="text"
-                label="Album"
-                placeholder="Sugarhill Gang"
-                id="album"
-                name="album"
-                value={album}
-                required={true}
-            />
-            <Input type="date"
-                label="Date de sortie"
-                id="released_at"
-                name="released_at"
-                value={formatDate(released_at)}
-                required={true}
-            />
+            <SongFormFields {...{ released_at, title, artist, album }} />
             <input type="submit" value="Valider"></input>
         </form>}
 

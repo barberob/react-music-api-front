@@ -6,7 +6,7 @@ import getInputValue from '../../helpers/getInputValue'
 
 import notificationContext from '../../contexts/notification/notificationContext'
 
-import Input from '../Input'
+import SongFormFields from '../SongFormFields'
 
 
 const AddSong = ({ handleAddSong }) => {
@@ -47,11 +47,7 @@ const AddSong = ({ handleAddSong }) => {
             <button className="AddSongButton" onClick={handleClick}>{isAddingSong ? 'Annuler ' : 'Ajouter une musique'}</button>
 
             {isAddingSong && <form className="AddSongForm" onSubmit={handleSubmit}>
-
-                <Input type="text" label="Titre" placeholder="Rapper's Delight" id="title" name="title" required={true} />
-                <Input type="text" label="Artiste" placeholder="The Sugarhill Gang" id="artist" name="artist" required={true} />
-                <Input type="text" label="Album" placeholder="Sugarhill Gang" id="album" name="album" required={true} />
-                <Input type="date" label="Date de sortie" id="released_at" name="released_at" required={true} />
+                <SongFormFields></SongFormFields>
                 <button type="submit">Valider</button>
             </form>}
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import './song.scss'
 
-import DeleteSong from './DeleteSong'
-import UpdateSong from './UpdateSong'
+import DeleteSong from '../DeleteSong'
+import UpdateSong from '../UpdateSong'
 
 const Song = ({ title, artist, album, released_at, _id, handleDeleteSong, handleUpdateSong }) => {
     return <li className="Song-container">
