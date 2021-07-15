@@ -33,11 +33,13 @@ const AddSong = ({ handleAddSong }) => {
                 return
             }
         }
-        const isAdded = await handleAddSong(values)
-        if (isAdded) {
-            dispatch({ type: 'set_all', error: false, message: 'Musique ajoutée', display: true })
-        } else {
+        const addSongStatus = await handleAddSong(values)
+        if (addSongStatus.exists) {
+            dispatch({ type: 'set_all', error: true, message: 'Cette musique à déjà été ajoutée', display: true })
+        } else if (addSongStatus.error) {
             dispatch({ type: 'set_all', error: true, message: 'Erreur lors de l\'ajout', display: true })
+        } else {
+            dispatch({ type: 'set_all', error: false, message: 'Musique ajoutée', display: true })
         }
         setIsAddingSong(false)
     }

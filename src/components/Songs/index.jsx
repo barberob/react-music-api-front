@@ -19,7 +19,12 @@ const Songs = () => {
     const [errorRetrievingSongs, setErrorRetrievingSongs] = useState(false)
 
     useEffect(() => {
-        fetchData()
+        let mounted = true
+        if (mounted) {
+            fetchData()
+        }
+
+        return () => mounted = false
     }, [])
 
     const fetchData = async () => {
@@ -58,13 +63,13 @@ const Songs = () => {
                 }
             })
             const data = await response.json()
-            if (data.error) return false
+            if (data.error) return data
             const newSongs = [...songs, data.song]
             setSongs(newSongs)
             setDisplayedSongs(newSongs)
-            return true
+            return { error: false }
         } catch (err) {
-            return false
+            return { error: true }
         }
     }
 
@@ -80,6 +85,8 @@ const Songs = () => {
             })
             const data = await response.json()
 
+            if (data.exists) return data
+
             if (!data.error) {
                 const newSongs = songs.map(song => {
                     if (song._id !== values._id) return song
@@ -87,12 +94,12 @@ const Songs = () => {
                 })
                 setSongs(newSongs)
                 setDisplayedSongs(newSongs)
-                return true
+                return { error: false }
             } else {
-                return false
+                return { error: true }
             }
         } catch (err) {
-            return false
+            return { error: true }
         }
     }
 
