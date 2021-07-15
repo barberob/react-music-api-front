@@ -38,7 +38,7 @@ const UpdateSong = ({ title, artist, album, released_at, _id, handleUpdateSong }
         }
 
         const updateStatus = await handleUpdateSong(values)
-        if (updateStatus) {
+        if (updateStatus.exists) {
             dispatch({ type: 'set_all', error: true, message: 'Une autre musique est similaire', display: true })
         } else if (updateStatus.error) {
             dispatch({ type: 'set_all', error: true, message: 'Erreur lors de la modification', display: true })
